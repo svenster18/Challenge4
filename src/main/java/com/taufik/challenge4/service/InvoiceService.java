@@ -1,5 +1,7 @@
 package com.taufik.challenge4.service;
 
+import org.springframework.http.ResponseEntity;
+
 public interface InvoiceService {
-    void generateInvoice(String username, int filmcode, int scheduleid);
+    ResponseEntity<byte[]> generateInvoice(String username, int filmcode);
 }
