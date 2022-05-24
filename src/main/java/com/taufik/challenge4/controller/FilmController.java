@@ -2,9 +2,12 @@ package com.taufik.challenge4.controller;
 
 import java.util.List;
 
+import com.taufik.challenge4.AuthTokenFilter;
 import com.taufik.challenge4.model.Film;
 import com.taufik.challenge4.model.Schedule;
 import com.taufik.challenge4.service.FilmServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,8 @@ public class FilmController {
     public FilmController(FilmServiceImpl filmServiceImpl) {
         this.filmServiceImpl = filmServiceImpl;
     }
+
+    private static final Logger logger = LoggerFactory.getLogger(FilmController.class);
     @GetMapping(value="/listfilm")
     public List<Film> getFilm() {
         return filmServiceImpl.findByStatusTayang("sedang tayang");
@@ -35,6 +40,7 @@ public class FilmController {
     }
     @PostMapping(value="/film")
     public Film addFilm(@RequestBody Film film) {
+        logger.info("Film successfully added to database");
         return filmServiceImpl.save(film);
     }
     @PutMapping(value="/film/{filmcode}")
@@ -42,6 +48,7 @@ public class FilmController {
         Film film = filmServiceImpl.findById(filmcode)
                 .orElseThrow(()->new FilmNotFoundException("Film with "+filmcode+" is Not Found!"));
         film.setFilmname(newFilm.getFilmname());
+        logger.info("Film successfully updated");
         return filmServiceImpl.save(film);
     }
     @DeleteMapping(value="/film/{filmcode}")
@@ -49,6 +56,7 @@ public class FilmController {
         Film film = filmServiceImpl.findById(filmcode)
                 .orElseThrow(()->new FilmNotFoundException("Film with "+filmcode+" is Not Found!"));
         filmServiceImpl.deleteById(film.getFilmcode());
+        logger.info("Film successfully deleted");
         return "Film with film code :"+filmcode+" is deleted";
     }
 }

@@ -11,6 +11,8 @@ import com.taufik.challenge4.model.ERole;
 import com.taufik.challenge4.model.Role;
 import com.taufik.challenge4.model.User;
 import com.taufik.challenge4.model.UserDetailsImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -45,6 +47,8 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+
     @PostMapping("/signin")
     public ResponseEntity<?> auhenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -59,6 +63,8 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
+
+        logger.info("Sign in success");
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
@@ -115,6 +121,8 @@ public class AuthController {
 
         user.setRoles(roles);
         userRepository.save(user);
+
+        logger.info("Sign up success");
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
