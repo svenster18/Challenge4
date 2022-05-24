@@ -4,6 +4,7 @@ import com.taufik.challenge4.model.InvoiceInput;
 import com.taufik.challenge4.service.InvoiceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,8 +15,9 @@ public class InvoiceController {
     public InvoiceController(InvoiceServiceImpl invoiceServiceImpl) {
         this.invoiceServiceImpl = invoiceServiceImpl;
     }
-    @PostMapping(value="/invoice")
-    public ResponseEntity<byte[]> generateInvoice(@RequestBody InvoiceInput invoiceInput) {
-        return invoiceServiceImpl.generateInvoice(invoiceInput.getUsername(), invoiceInput.getFilmcode());
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
+    @GetMapping(value="/invoice/{filmcode}")
+    public ResponseEntity<byte[]> generateInvoice(@PathVariable("filmcode") int filmcode) {
+        return invoiceServiceImpl.generateInvoice(filmcode);
     }
 }

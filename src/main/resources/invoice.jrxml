@@ -9,9 +9,14 @@
 	<title>
 		<band height="79" splitType="Stretch">
 			<textField>
-				<reportElement x="26" y="29" width="100" height="20" uuid="71a7822a-7c88-48e6-8226-4368fca413fc"/>
+				<reportElement x="26" y="17" width="100" height="20" uuid="71a7822a-7c88-48e6-8226-4368fca413fc"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="26" y="47" width="100" height="20" uuid="011b2bef-ac72-4ce2-920e-bc7416c5c4de"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

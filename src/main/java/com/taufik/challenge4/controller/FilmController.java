@@ -6,6 +6,8 @@ import com.taufik.challenge4.model.Film;
 import com.taufik.challenge4.model.Schedule;
 import com.taufik.challenge4.service.FilmServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +25,7 @@ public class FilmController {
     public FilmController(FilmServiceImpl filmServiceImpl) {
         this.filmServiceImpl = filmServiceImpl;
     }
-    @GetMapping(value="/film")
+    @GetMapping(value="/listfilm")
     public List<Film> getFilm() {
         return filmServiceImpl.findByStatusTayang("sedang tayang");
     }
